@@ -1,0 +1,10 @@
+﻿body{font:14px/1.5 Arial,"宋体";font-weight:normal;}
+.paper{width: 100%;height: auto;background: #f2f2f2;}
+.paper table{width:95%;min-width:966px;border-collapse:collapse;border-left:1px solid #DCDCDC;margin:0 auto;}
+.paper table thead tr{border-top:1px solid #DCDCDC;background:#999;}
+.paper table thead tr th,table tbody tr th{padding:10px 20px;border-right:1px solid #DCDCDC;border-bottom:1px solid #DCDCDC;}
+.paper table tbody tr:nth-child(2n){background:#F5f5f5;}
+.paper table tbody tr:hover{background:#ccc;transition:all ease-in-out .1s;}
+.paper table tbody tr th a{display:inline-block;margin-right:20px;cursor:pointer;text-decoration:none;color:#000;}
+.paper table tbody tr th a:hover{transform:scale(1.1);transition:all ease-in-out 0.1s;}
+.paper table tbody tr th a:last-child{margin-right:0;}

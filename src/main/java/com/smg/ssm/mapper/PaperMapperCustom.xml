@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.PaperMapperCustom" >
+	<sql id="select_paper_where">
+		<if test="paperCustom!=null">
+			<if test="paperCustom.paperKeywords!=null and paperCustom.paperKeywords!=''">
+				paper.paper_name LIKE CONCAT(CONCAT('%',#{paperCustom.paperKeywords,jdbcType=VARCHAR},'%')) 
+				AND paper.paper_state = 1
+				OR paper.paper_keywords LIKE CONCAT(CONCAT('%',#{paperCustom.paperKeywords,jdbcType=VARCHAR},'%'))
+				AND paper.paper_state = 1
+			</if>
+			<if test="paperCustom.paperId!=null and paperCustom.paperId!=''">
+				paper.paper_id LIKE CONCAT(CONCAT('%',#{paperCustom.paperId,jdbcType=VARCHAR},'%'))
+				AND paper.paper_state = 1
+			</if> 
+			<if test="paperCustom.paperType!=null">
+				paper.paper_type = #{paperCustom.paperType,jdbcType=INTEGER}
+				AND paper.paper_state = 1
+			</if>
+			<if test="paperCustom.paperInstructor!=null">
+				paper.paper_instructor = #{paperCustom.paperInstructor,jdbcType=INTEGER}
+				AND paper.paper_state = 1
+			</if> 
+			<if test="paperCustom.paperUtterer!=null">
+				paper.paper_utterer = #{paperCustom.paperUtterer,jdbcType=INTEGER}
+				AND paper.paper_state = 1
+			</if>
+			<if test="paperCustom.paperPublishtime!=null and paperCustom.paperPublishtime!=''">
+				paper.paper_publishtime &gt;= #{paperCustom.paperPublishtime,jdbcType=TIMESTAMP} 
+				AND paper.paper_state = 1
+				ORDER BY paper.paper_publishtime
+			</if>
+		</if>
+	</sql>
+	<!-- 查询论文集合 -->
+	<select id="selectPaperList" parameterType="com.smg.ssm.po.PaperVo" resultType="com.smg.ssm.po.PaperCustom">
+		SELECT paper.* FROM paper 
+		<where>
+			<include refid="select_paper_where"></include>
+		</where>
+	</select>
+	<!-- 查询论文集合对应用户名 -->
+	<select id="selectPaperName" parameterType="com.smg.ssm.po.PaperVo" resultType="com.smg.ssm.po.PaperCustom">
+		SELECT  paper.*,B.paper_utterer_name,C.paper_instructor_name
+		FROM paper
+		LEFT JOIN (
+			SELECT `user`.user_name as paper_utterer_name,`user`.user_id
+			FROM `user`
+			WHERE `user`.user_id = #{paperCustom.paperUtterer,jdbcType=INTEGER}
+		) as B
+		ON paper.paper_utterer = B.user_id
+		LEFT JOIN (
+			SELECT `user`.user_name as paper_instructor_name,`user`.user_id 
+			FROM `user`
+			WHERE `user`.user_id = #{paperCustom.paperInstructor,jdbcType=INTEGER}
+		) as C
+		ON paper.paper_instructor = C.user_id
+		WHERE paper.paper_id = #{paperCustom.paperId,jdbcType=VARCHAR}
+		ORDER BY paper.paper_publishtime DESC 
+		LIMIT 0,10
+	</select>
+	<!-- 根据发表人查论文 -->
+	<select id="selectMyPaper" parameterType="java.lang.Integer" resultType="com.smg.ssm.po.PaperCustom">
+		SELECT paper.* FROM paper 
+		WHERE paper.paper_utterer = #{paperUtterer,jdbcType=INTEGER}
+		OR paper.paper_instructor = #{paperUtterer,jdbcType=INTEGER}
+		AND  paper.paper_state = 0
+		ORDER BY paper.paper_publishtime DESC 
+		LIMIT 0,10
+	</select>
+	<!-- 根据论文名查论文状态 -->
+	<select id="selectPaperState" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT paper.paper_state FROM paper
+		WHERE paper.paper_content = #{paperContent,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据论文id查论文名 -->
+	<select id="selectPaperContent" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT paper.paper_content FROM paper
+		WHERE paper.paper_id = #{paperId,jdbcType=VARCHAR}
+	</select>
+	 <!-- 根据id修改论文不通过原因 -->
+	<update id="updatePaperReason" parameterType="com.smg.ssm.po.Paper">
+		<if test="paperId!=null and paperId!='' and paperReason!=null and paperReason!=''">
+			UPDATE paper 
+			SET paper.paper_reason = #{paperReason,jdbcType=VARCHAR}
+			WHERE paper.paper_id = #{paperId,jdbcType=VARCHAR}
+		</if>
+	</update>
+	<!--  -->
+	<update id="updatePaperState" parameterType="com.smg.ssm.po.Paper">
+		<if test="paperId!='' and paperId!=null and paperState!='' and paperState!=null">
+			UPDATE paper
+			SET paper.paper_state = #{paperState,jdbcType=INTEGER}
+			<if test="paperState==1">
+				WHERE paper.paper_id = #{paperId,jdbcType=VARCHAR} 
+				AND paper.paper_state = 0
+			</if>
+			<if test="paperState==2">
+				WHERE paper.paper_id = #{paperId,jdbcType=VARCHAR} 
+				AND paper.paper_state = 0
+			</if>
+		</if> 
+	</update>
+</mapper>

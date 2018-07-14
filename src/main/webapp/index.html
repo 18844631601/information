@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="Generator" content="EditPlus®">
+		<meta name="Author" content="">
+		<meta name="Keywords" content="">
+		<meta name="Description" content="">
+		<title>Document</title>
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css">
+		<link type="text/css" rel="stylesheet" href="css/login_cj.css">
+	</head>
+	<body>
+		<div class="backImg"></div>
+		<div class="centerBox">
+			<div class="title">科研信息管理系统</div>
+			<div class="loginBox">
+				<div class="logo">
+					<div class="logoIcon">
+						<img src="img/logo.jpg" width="150" height="150">
+					</div>
+					<div class="logoSchool">白城师范学院</div>
+				</div>
+				<div class="login" id="login">
+					<div class="userBox">
+						<input type="text" class="user" id="userId" placeholder="学号/职工号">
+					</div>
+					<div class="pwBox">
+						<input type="password" class="pw" id="userPw" placeholder="密码">
+					</div>
+					<div class="loginBt" id="loginBt">登陆</div>
+					<div class="forgotBox">
+						<div class="forgot">忘记密码</div>
+						<div class="regist" id="register">免费注册</div>
+					</div>
+				</div>
+				<div class="registerBox" id="registerBox" style="display:none">
+					<div class="userBox">
+						<input type="text" class="user" id="rUserId" placeholder="学号/职工号">
+					</div>
+					<div class="pwBox">
+						<input type="password" class="pw" id="rUsserPw" placeholder="密码">
+					</div>
+					<div class="pwBox">
+						<input type="password" class="pw" id="rUsserPwAgain" placeholder="确认密码">
+					</div>
+					<div class="loginBt" id="registerBtn">注册</div>
+					<span class="backLogin" id="backLogin">已有账号返回登陆</span>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript">
+			(function(){
+				/* 登陆 */
+/* 				var pathName = window.location.pathname;
+				var path = window.location.protocol+"//"+window.location.host+pathName.substring(0, pathName.lastIndexOf("/")); */
+				$("#loginBt").click(function(){
+					var userId = $("#userId").val();
+					var userPw = $("#userPw").val();
+					if(userId == null || userId == "" || userPw == null || userPw == ""){
+						return false;
+					}
+					$.ajax({
+						type: "POST",
+						url: "user/selectUserByIdAndPw",
+						data: {
+							"userId":userId,
+							"userPw":userPw
+						},
+						dataType: "TEXT",
+						success: function(data){
+							if(data == 1){
+								alert("登陆成功");
+								$(window).attr("location","toMainPage");
+							}else{
+								alert("账号或密码错误");
+							}
+						},
+						error: function(){
+							alert("登陆操作失败");
+						}
+					});
+				});
+				/* 前往注册框 */
+				$("#register").click(function(){
+					$(this).parent().parent().hide();
+					$("#registerBox").show();
+				});
+				/* 返回登陆框 */
+				$("#backLogin").click(function(){
+					$("#registerBox").hide();
+					$("#login").show();
+				});
+				/* 注册 */
+				$("#registerBtn").click(function(){
+					var userId = $("#rUserId").val();
+					var userPw = $("#rUsserPw").val();
+					var userPwAgain = $("#rUsserPwAgain").val();
+					if(userId == null || userId == "" || userPw == null || userPw == "" || userPwAgain == null || userPwAgain == "" || userPwAgain != userPw){
+						return false;
+					}
+					$.ajax({
+						type: "POST",
+						url: "user/addUser",
+						data: {
+							"userId":userId,
+							"userPw":userPw
+						},
+						dataType: "TEXT",
+						success: function(data){
+							if(data == 1){
+								alert("注册成功");
+								$(window).attr("location","toMainPage");
+							}else{ 
+								alert("账号已存在或者账号密码超长");
+							}
+						},
+						error: function(){
+							alert("登陆操作失败");
+						}
+					});
+				});
+				
+			})();
+		</script>	
+	</body>
+</html>

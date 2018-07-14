@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.AwardMapper" >
+  <resultMap id="BaseResultMap" type="com.smg.ssm.po.Award" >
+    <id column="award_id" property="awardId" jdbcType="INTEGER" />
+    <result column="award_name" property="awardName" jdbcType="VARCHAR" />
+    <result column="award_time" property="awardTime" jdbcType="DATE" />
+    <result column="award_type" property="awardType" jdbcType="INTEGER" />
+    <result column="award_awarder" property="awardAwarder" jdbcType="INTEGER" />
+    <result column="award_state" property="awardState" jdbcType="INTEGER" />
+    <result column="award_reason" property="awardReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    award_id, award_name, award_time, award_type, award_awarder, award_state, award_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from award
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from award
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.smg.ssm.po.Award" >
+    insert into award (award_id, award_name, award_time, 
+      award_type, award_awarder, award_state, 
+      award_reason)
+    values (#{awardId,jdbcType=INTEGER}, #{awardName,jdbcType=VARCHAR}, #{awardTime,jdbcType=DATE}, 
+      #{awardType,jdbcType=INTEGER}, #{awardAwarder,jdbcType=INTEGER}, #{awardState,jdbcType=INTEGER}, 
+      #{awardReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.smg.ssm.po.Award" >
+    insert into award
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="awardId != null" >
+        award_id,
+      </if>
+      <if test="awardName != null" >
+        award_name,
+      </if>
+      <if test="awardTime != null" >
+        award_time,
+      </if>
+      <if test="awardType != null" >
+        award_type,
+      </if>
+      <if test="awardAwarder != null" >
+        award_awarder,
+      </if>
+      <if test="awardState != null" >
+        award_state,
+      </if>
+      <if test="awardReason != null" >
+        award_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="awardId != null" >
+        #{awardId,jdbcType=INTEGER},
+      </if>
+      <if test="awardName != null" >
+        #{awardName,jdbcType=VARCHAR},
+      </if>
+      <if test="awardTime != null" >
+        #{awardTime,jdbcType=DATE},
+      </if>
+      <if test="awardType != null" >
+        #{awardType,jdbcType=INTEGER},
+      </if>
+      <if test="awardAwarder != null" >
+        #{awardAwarder,jdbcType=INTEGER},
+      </if>
+      <if test="awardState != null" >
+        #{awardState,jdbcType=INTEGER},
+      </if>
+      <if test="awardReason != null" >
+        #{awardReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.smg.ssm.po.Award" >
+    update award
+    <set >
+      <if test="awardName != null" >
+        award_name = #{awardName,jdbcType=VARCHAR},
+      </if>
+      <if test="awardTime != null" >
+        award_time = #{awardTime,jdbcType=DATE},
+      </if>
+      <if test="awardType != null" >
+        award_type = #{awardType,jdbcType=INTEGER},
+      </if>
+      <if test="awardAwarder != null" >
+        award_awarder = #{awardAwarder,jdbcType=INTEGER},
+      </if>
+      <if test="awardState != null" >
+        award_state = #{awardState,jdbcType=INTEGER},
+      </if>
+      <if test="awardReason != null" >
+        award_reason = #{awardReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.smg.ssm.po.Award" >
+    update award
+    set award_name = #{awardName,jdbcType=VARCHAR},
+      award_time = #{awardTime,jdbcType=DATE},
+      award_type = #{awardType,jdbcType=INTEGER},
+      award_awarder = #{awardAwarder,jdbcType=INTEGER},
+      award_state = #{awardState,jdbcType=INTEGER},
+      award_reason = #{awardReason,jdbcType=VARCHAR}
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </update>
+</mapper>

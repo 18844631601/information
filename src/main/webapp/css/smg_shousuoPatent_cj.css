@@ -1,0 +1,20 @@
+﻿*{margin:0;padding:0;}
+.functionBox{width:100%;height:55px;border-bottom:1px solid #000;display:flex;margin-top:15px;position:relative;}
+.functionBox .functionList{width:50%;min-width:200px;height:40px;float:left;text-align:center;}
+.functionBox .functionList span{display:inline-block;width:90px;height:40px;margin-right:10px;background:#999;line-height:40px;border-radius:2px;}
+.functionBox .functionList span:hover{cursor:pointer;background:#888;}
+.functionBox .functionList span:last-child{margin-right:0;}
+.functionBox .fn-selectPatent{width:50%;height:40px;float:left;}
+.functionBox .fn-selectPatent .selectBox{width:454px;height:40px;display:flex;margin:0 auto;}
+.functionBox .fn-selectPatent .selectBox .selectBy{width:124px;height:38px;}
+.functionBox .fn-selectPatent .selectBox .selectBy ul{width:120px;height:auto;position:relative;z-index:1;}
+.functionBox .fn-selectPatent .selectBox .selectBy ul li{display:none;width:120px;height:39px;line-height:38px;text-align:center;border:1px solid #CDCDCD;border-top:none;background:#fff;}
+.functionBox .fn-selectPatent .selectBox .selectBy ul li:first-child{display:inline-block;border:1px solid #fff;position:relative;}
+.functionBox .fn-selectPatent .selectBox .selectBy ul li:first-child:after{content:"▲";display:inline-block;transform:rotate(180deg);position:absolute;top:0px;left:97px;}
+.functionBox .fn-selectPatent .selectBox .selectBy ul li:hover{cursor:pointer;background:#CDCDCD;}
+.functionBox .fn-selectPatent .selectBox .selectBy:hover ul li{display:inline-block;}
+.functionBox .fn-selectPatent .selectBox .selectBy:hover ul li:first-child:after{transform:rotate(0deg);}
+.functionBox .fn-selectPatent .selectBox .selectBy:hover ul li:first-child{border-bottom:1px solid #CDCDCD;}
+.functionBox .fn-selectPatent .selectBox .selectBox-input{width:245px;height:38px;border:0;padding:0;outline:none;text-indent:.6em;font-size:16px;border:1px solid #666;margin-left:5px;}
+.functionBox .fn-selectPatent .selectBox .selectBox-select{display:inline-block;width:80px;height:38px;background:#666;border:1px solid #666;cursor:pointer;color:#fff;text-align:center;line-height:38px;}
+.patentManage{width:100px;height:30px;text-align:center;line-height:30px;background:#fff;position:relative;top:-15px;margin:0 auto;}

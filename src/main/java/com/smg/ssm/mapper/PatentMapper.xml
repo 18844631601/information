@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.PatentMapper" >
+  <resultMap id="BaseResultMap" type="com.smg.ssm.po.Patent" >
+    <id column="patent_id" property="patentId" jdbcType="VARCHAR" />
+    <result column="patent_name" property="patentName" jdbcType="VARCHAR" />
+    <result column="patent_applytime" property="patentApplytime" jdbcType="DATE" />
+    <result column="patent_gettime" property="patentGettime" jdbcType="DATE" />
+    <result column="patent_patentee" property="patentPatentee" jdbcType="INTEGER" />
+    <result column="patent_state" property="patentState" jdbcType="INTEGER" />
+    <result column="patent_reason" property="patentReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    patent_id, patent_name, patent_applytime, patent_gettime, patent_patentee, patent_state, 
+    patent_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from patent
+    where patent_id = #{patentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from patent
+    where patent_id = #{patentId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.smg.ssm.po.Patent" >
+    insert into patent (patent_id, patent_name, patent_applytime, 
+      patent_gettime, patent_patentee, patent_state, 
+      patent_reason)
+    values (#{patentId,jdbcType=VARCHAR}, #{patentName,jdbcType=VARCHAR}, #{patentApplytime,jdbcType=DATE}, 
+      #{patentGettime,jdbcType=DATE}, #{patentPatentee,jdbcType=INTEGER}, #{patentState,jdbcType=INTEGER}, 
+      #{patentReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.smg.ssm.po.Patent" >
+    insert into patent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="patentId != null" >
+        patent_id,
+      </if>
+      <if test="patentName != null" >
+        patent_name,
+      </if>
+      <if test="patentApplytime != null" >
+        patent_applytime,
+      </if>
+      <if test="patentGettime != null" >
+        patent_gettime,
+      </if>
+      <if test="patentPatentee != null" >
+        patent_patentee,
+      </if>
+      <if test="patentState != null" >
+        patent_state,
+      </if>
+      <if test="patentReason != null" >
+        patent_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="patentId != null" >
+        #{patentId,jdbcType=VARCHAR},
+      </if>
+      <if test="patentName != null" >
+        #{patentName,jdbcType=VARCHAR},
+      </if>
+      <if test="patentApplytime != null" >
+        #{patentApplytime,jdbcType=DATE},
+      </if>
+      <if test="patentGettime != null" >
+        #{patentGettime,jdbcType=DATE},
+      </if>
+      <if test="patentPatentee != null" >
+        #{patentPatentee,jdbcType=INTEGER},
+      </if>
+      <if test="patentState != null" >
+        #{patentState,jdbcType=INTEGER},
+      </if>
+      <if test="patentReason != null" >
+        #{patentReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.smg.ssm.po.Patent" >
+    update patent
+    <set >
+      <if test="patentName != null" >
+        patent_name = #{patentName,jdbcType=VARCHAR},
+      </if>
+      <if test="patentApplytime != null" >
+        patent_applytime = #{patentApplytime,jdbcType=DATE},
+      </if>
+      <if test="patentGettime != null" >
+        patent_gettime = #{patentGettime,jdbcType=DATE},
+      </if>
+      <if test="patentPatentee != null" >
+        patent_patentee = #{patentPatentee,jdbcType=INTEGER},
+      </if>
+      <if test="patentState != null" >
+        patent_state = #{patentState,jdbcType=INTEGER},
+      </if>
+      <if test="patentReason != null" >
+        patent_reason = #{patentReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where patent_id = #{patentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.smg.ssm.po.Patent" >
+    update patent
+    set patent_name = #{patentName,jdbcType=VARCHAR},
+      patent_applytime = #{patentApplytime,jdbcType=DATE},
+      patent_gettime = #{patentGettime,jdbcType=DATE},
+      patent_patentee = #{patentPatentee,jdbcType=INTEGER},
+      patent_state = #{patentState,jdbcType=INTEGER},
+      patent_reason = #{patentReason,jdbcType=VARCHAR}
+    where patent_id = #{patentId,jdbcType=VARCHAR}
+  </update>
+</mapper>

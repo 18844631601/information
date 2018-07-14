@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.smg.ssm.po.User" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_pw" property="userPw" jdbcType="VARCHAR" />
+    <result column="user_iDnumber" property="userIdnumber" jdbcType="VARCHAR" />
+    <result column="user_phonenumber" property="userPhonenumber" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="user_address" property="userAddress" jdbcType="VARCHAR" />
+    <result column="user_isadmin" property="userIsadmin" jdbcType="INTEGER" />
+    <result column="user_state" property="userState" jdbcType="INTEGER" />
+    <result column="user_reason" property="userReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, user_pw, user_iDnumber, user_phonenumber, user_name, user_type, user_address, 
+    user_isadmin, user_state, user_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.smg.ssm.po.User" >
+    insert into user (user_id, user_pw, user_iDnumber, 
+      user_phonenumber, user_name, user_type, 
+      user_address, user_isadmin, user_state, 
+      user_reason)
+    values (#{userId,jdbcType=INTEGER}, #{userPw,jdbcType=VARCHAR}, #{userIdnumber,jdbcType=VARCHAR}, 
+      #{userPhonenumber,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
+      #{userAddress,jdbcType=VARCHAR}, #{userIsadmin,jdbcType=INTEGER}, #{userState,jdbcType=INTEGER}, 
+      #{userReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.smg.ssm.po.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userPw != null" >
+        user_pw,
+      </if>
+      <if test="userIdnumber != null" >
+        user_iDnumber,
+      </if>
+      <if test="userPhonenumber != null" >
+        user_phonenumber,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="userAddress != null" >
+        user_address,
+      </if>
+      <if test="userIsadmin != null" >
+        user_isadmin,
+      </if>
+      <if test="userState != null" >
+        user_state,
+      </if>
+      <if test="userReason != null" >
+        user_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userPw != null" >
+        #{userPw,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdnumber != null" >
+        #{userIdnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhonenumber != null" >
+        #{userPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userAddress != null" >
+        #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userIsadmin != null" >
+        #{userIsadmin,jdbcType=INTEGER},
+      </if>
+      <if test="userState != null" >
+        #{userState,jdbcType=INTEGER},
+      </if>
+      <if test="userReason != null" >
+        #{userReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.smg.ssm.po.User" >
+    update user
+    <set >
+      <if test="userPw != null" >
+        user_pw = #{userPw,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdnumber != null" >
+        user_iDnumber = #{userIdnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhonenumber != null" >
+        user_phonenumber = #{userPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userAddress != null" >
+        user_address = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userIsadmin != null" >
+        user_isadmin = #{userIsadmin,jdbcType=INTEGER},
+      </if>
+      <if test="userState != null" >
+        user_state = #{userState,jdbcType=INTEGER},
+      </if>
+      <if test="userReason != null" >
+        user_reason = #{userReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.smg.ssm.po.User" >
+    update user
+    set user_pw = #{userPw,jdbcType=VARCHAR},
+      user_iDnumber = #{userIdnumber,jdbcType=VARCHAR},
+      user_phonenumber = #{userPhonenumber,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=INTEGER},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      user_isadmin = #{userIsadmin,jdbcType=INTEGER},
+      user_state = #{userState,jdbcType=INTEGER},
+      user_reason = #{userReason,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

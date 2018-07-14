@@ -1,0 +1,23 @@
+﻿*{margin: 0;padding: 0;}
+body{overflow:hidden;}
+header{width: 100%;min-width:1030px;height: 40px;line-height: 40px;color:#fff;background: rgb(125,125,125);}
+header .logo{float:left;width:40px;height:40px;}
+header .wellcome_word{float: left;display: inline-block;margin-left: 10px;font-size: 20px;}
+header .adminBox {float:right;}
+header .adminBox span{margin-right: 20px;}
+.content{width:100%;min-width:1030px;height:100%;display:flex;}
+.content .controllers{width: 40px;height:auto;background: rgb(125,125,125);float:left;}
+.content .controllers a{display:block; width: 40px;height:40px;border-bottom:1px solid rgb(125,125,125);line-height: 40px;text-decoration: none;color:#fff;background: rgb(125,125,125);position:relative;}
+.content .controllers a:hover{background:rgba(0,0,0,0.3);}
+.content .controllers a:hover:before{display:inline-block;}
+.content .controllers a:hover:after{display:inline-block;}
+.content .controllers a:before{content: "";display: none;width: 160px;height: 40px;background:#575757;border-bottom: 1px solid #fff;margin-left: 55px;text-align: center;border-radius: 5px;}
+.content .controllers a:nth-child(1):before{content: "用户管理";}
+.content .controllers a:nth-child(2):before{content: "论文管理";}
+.content .controllers a:nth-child(3):before{content: "专利管理";}
+.content .controllers a:nth-child(4):before{content: "项目管理";}
+.content .controllers a:nth-child(5):before{content: "获奖管理";}
+.content .controllers a:nth-child(6):before{content: "学术交流管理";}
+.content .controllers a:after{content:"";display:none;width:0;height:0;position:absolute;top:10px;left:21px;border-bottom:10px solid transparent;border-top:10px solid transparent;border-left:19px solid transparent;border-right:19px solid #575757;line-height:40px;}
+.content .showContent{float:left;width:100%;height:auto;}
+.content .showContent iframe{width:100%;height:100%;}

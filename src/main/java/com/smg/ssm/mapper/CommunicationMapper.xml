@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.CommunicationMapper" >
+  <resultMap id="BaseResultMap" type="com.smg.ssm.po.Communication" >
+    <id column="communication_id" property="communicationId" jdbcType="INTEGER" />
+    <result column="communication_name" property="communicationName" jdbcType="VARCHAR" />
+    <result column="communication_address" property="communicationAddress" jdbcType="VARCHAR" />
+    <result column="communication_starttime" property="communicationStarttime" jdbcType="DATE" />
+    <result column="communication_endtime" property="communicationEndtime" jdbcType="DATE" />
+    <result column="communication_man" property="communicationMan" jdbcType="INTEGER" />
+    <result column="communication_state" property="communicationState" jdbcType="INTEGER" />
+    <result column="communication_reason" property="communicationReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    communication_id, communication_name, communication_address, communication_starttime, 
+    communication_endtime, communication_man, communication_state, communication_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from communication
+    where communication_id = #{communicationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from communication
+    where communication_id = #{communicationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.smg.ssm.po.Communication" >
+    insert into communication (communication_id, communication_name, 
+      communication_address, communication_starttime, 
+      communication_endtime, communication_man, communication_state, 
+      communication_reason)
+    values (#{communicationId,jdbcType=INTEGER}, #{communicationName,jdbcType=VARCHAR}, 
+      #{communicationAddress,jdbcType=VARCHAR}, #{communicationStarttime,jdbcType=DATE}, 
+      #{communicationEndtime,jdbcType=DATE}, #{communicationMan,jdbcType=INTEGER}, #{communicationState,jdbcType=INTEGER}, 
+      #{communicationReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.smg.ssm.po.Communication" >
+    insert into communication
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="communicationId != null" >
+        communication_id,
+      </if>
+      <if test="communicationName != null" >
+        communication_name,
+      </if>
+      <if test="communicationAddress != null" >
+        communication_address,
+      </if>
+      <if test="communicationStarttime != null" >
+        communication_starttime,
+      </if>
+      <if test="communicationEndtime != null" >
+        communication_endtime,
+      </if>
+      <if test="communicationMan != null" >
+        communication_man,
+      </if>
+      <if test="communicationState != null" >
+        communication_state,
+      </if>
+      <if test="communicationReason != null" >
+        communication_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="communicationId != null" >
+        #{communicationId,jdbcType=INTEGER},
+      </if>
+      <if test="communicationName != null" >
+        #{communicationName,jdbcType=VARCHAR},
+      </if>
+      <if test="communicationAddress != null" >
+        #{communicationAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="communicationStarttime != null" >
+        #{communicationStarttime,jdbcType=DATE},
+      </if>
+      <if test="communicationEndtime != null" >
+        #{communicationEndtime,jdbcType=DATE},
+      </if>
+      <if test="communicationMan != null" >
+        #{communicationMan,jdbcType=INTEGER},
+      </if>
+      <if test="communicationState != null" >
+        #{communicationState,jdbcType=INTEGER},
+      </if>
+      <if test="communicationReason != null" >
+        #{communicationReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.smg.ssm.po.Communication" >
+    update communication
+    <set >
+      <if test="communicationName != null" >
+        communication_name = #{communicationName,jdbcType=VARCHAR},
+      </if>
+      <if test="communicationAddress != null" >
+        communication_address = #{communicationAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="communicationStarttime != null" >
+        communication_starttime = #{communicationStarttime,jdbcType=DATE},
+      </if>
+      <if test="communicationEndtime != null" >
+        communication_endtime = #{communicationEndtime,jdbcType=DATE},
+      </if>
+      <if test="communicationMan != null" >
+        communication_man = #{communicationMan,jdbcType=INTEGER},
+      </if>
+      <if test="communicationState != null" >
+        communication_state = #{communicationState,jdbcType=INTEGER},
+      </if>
+      <if test="communicationReason != null" >
+        communication_reason = #{communicationReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where communication_id = #{communicationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.smg.ssm.po.Communication" >
+    update communication
+    set communication_name = #{communicationName,jdbcType=VARCHAR},
+      communication_address = #{communicationAddress,jdbcType=VARCHAR},
+      communication_starttime = #{communicationStarttime,jdbcType=DATE},
+      communication_endtime = #{communicationEndtime,jdbcType=DATE},
+      communication_man = #{communicationMan,jdbcType=INTEGER},
+      communication_state = #{communicationState,jdbcType=INTEGER},
+      communication_reason = #{communicationReason,jdbcType=VARCHAR}
+    where communication_id = #{communicationId,jdbcType=INTEGER}
+  </update>
+</mapper>

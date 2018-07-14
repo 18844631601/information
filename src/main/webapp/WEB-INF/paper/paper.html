@@ -1,0 +1,499 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8">
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="css/smg_shousuoPaper_cj.css"/>
+		<link type="text/css" rel="stylesheet" href="css/smg_papertable_cj.css"/>
+		<link type="text/css" rel="stylesheet" href="css/dialog_cj.css"/>
+	</head>
+	<body>
+		<div class="functionBox">
+			<div class="functionList">
+				<span class="fn-myPaper" id="fn-myPaper">我的论文</span>
+				<span class="fn-addPaper" id="fn-addPaper">录入论文</span>
+			</div>
+			<div class="fn-selectPaper">
+				<div class="selectBox">
+					<div class="selectBy">
+						<ul id="selectList">
+							<li data-index="1" data-tip="名称、关键字">论文名</li>
+							<li data-index="2" data-tip="ID编号">论文ID</li>
+							<li data-index="3" data-tip="设计、学术">论文类型</li>
+							<li data-index="4" data-tip="教师姓名">指导教师</li>
+							<li data-index="5" data-tip="时间格式:2019-09-09">发表时间</li>
+							<li data-index="6" data-tip="姓名">发表人</li>
+						</ul>
+					</div>
+					<input class="selectBox-input" id="selectBox-input" type="text" placeholder="名称、关键字"/>
+					<span class="selectBox-select" id="selectBox-select">搜索</span>
+				</div>
+			</div>
+		</div>
+		<div class="paperManage">论文管理</div>
+		<div class="paper">
+			<table>
+				<thead id="thead" style="display:none">
+					<tr><th>论文编号</th><th>论文名</th><th>论文类型</th><th>指导教师</th><th>发表时间</th><th>发表人</th><th>审核状态</th><th>操作</th></tr>
+				</thead>
+				<tbody id="tbody"></tbody>
+			</table>
+		</div>
+		<div class="allBackground" id="allBackground">
+			<div class="addPaperBox" id="addPaperBox">
+				<span class="cancelAddPaper" id="cancelAddPaper">+</span>
+				<ul class="paperAttrList" id="paperAttrList">
+					<li>
+						<span class="paperName">论文名</span>
+						<input class="textInput" type="text" id="paperName"/>
+					</li>
+					<li>
+						<span class="paperType">论文类型</span>
+						<label id="paperTypeLabel-1"><input type="radio" name="paperType" class="paperTypeSelect" checked="checked" value="1" id="paperType1"/>设计</label>
+						<label id="paperTypeLabel-2"><input type="radio" name="paperType" class="paperTypeSelect" value="2" id="paperType2"/>学术</label>
+					</li>
+					<li>
+						<span class="paperContent">论文文件</span>
+						<input readOnly="readonly" class="textInput textInputFileName" id="textInputFileName" type="text" placeholder="限doc、docx、pdf格式"/>
+						<span class="paperContentTrigger" id="paperContentTrigger">选择</span>
+						<input class="textInputFile" id="paperContent" type="file"/>
+					</li>
+					<li>
+						<span class="paperKeywords">关键字</span>
+						<input class="textInput" type="text" id="paperKeywords" placeholder="用|隔开如：学如|逆水|行舟"/>
+					</li>
+					<li>
+						<span class="paperInstructor">指导教师</span>
+						<input class="textInput" type="text" id="paperInstructor" placeholder="职工号如：999999999"/>
+					</li>
+					<li>
+						<span class="paperUtterer">发表人</span>
+						<label id="paperUttererMyLabel"><input type="radio" name="paperUtterer" checked="checked" value="34154106" class="paperUttererSelect"/>自己</label>
+						<label id="paperUttererStudentLabel"><input type="radio" name="paperUtterer" class="paperUttererSelect"/>学生<input type="text" class="userId" id="userId" placeholder="学号如：666666"/></label>
+					</li>
+				</ul>
+				<div class="addPaper-btnBox" id="addPaper-btnBox">
+					<span class="clearPaper-btn" id="clearPaper-btn">重填</span>
+					<span class="addPaper-btn" id="addPaper-btn">添加</span>
+				</div>
+			</div>
+			<div class="smgDialog" id="smgDialog"></div>
+			<div class="smgDialog" id="commentDialog"></div>
+			<div class="smgDialog" id="reasonDialog"></div>
+		</div>
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/dialog_cj.js"></script>
+		<script type="text/javascript">
+			(function(){
+				/*弹出论文添加框*/
+				$("#fn-addPaper").click(function(){
+					var $allBackgroundDom = $("#allBackground");
+					$allBackgroundDom.find("#addPaperBox").show();
+					$allBackgroundDom.show();
+					$("#clearPaper-btn").trigger("click");
+					var $addPaperBtnDom = $("#addPaper-btn");
+					$addPaperBtnDom.text("添加");
+					$addPaperBtnDom.removeAttr("data-id");
+					var paperUtterer = $("input.paperUttererSelect[name='paperUtterer']:checked").val();
+					if(paperUtterer=="on"){
+						$("#paperUttererStudentLabel").trigger("click");
+					};
+				});
+				/*关闭论文添加框*/
+				$("#cancelAddPaper").click(function(){
+					var $allBackgroundDom = $("#allBackground");
+					$allBackgroundDom.find("#addPaperBox").hide();
+					$allBackgroundDom.hide();
+					$("#clearPaper-btn").trigger("click");
+				});
+				/*查询个人发表论文*/
+				$("#fn-myPaper").click(function(){
+					var url = 'paper/selectMyPaper/34154106';
+					getPaper(url);
+				});
+				/*发表人为学生，弹出学号框*/
+				$("#paperUttererStudentLabel").click(function(){
+					$("#userId").show();
+				});
+				/*发表人为自己，关闭学号框*/
+				$("#paperUttererMyLabel").click(function(){
+					$("#userId").hide();
+				});
+				/*触发选择文件*/
+				$("#paperContentTrigger").click(function(){
+					$("#paperContent").trigger("click");
+				});
+				/*判断文件格式以及显示文件名*/
+				$("#paperContent").change(function(){
+					var fileURL = $("#paperContent").val();
+					if(!/.(doc|docx|pdf)$/.test(fileURL)){
+					    alert("图片类型必须是doc,docx,pdf中的一种");
+					    return false;
+					} 
+					var fileName = fileURL.substring(fileURL.lastIndexOf("\\")+1);
+					$("#textInputFileName").val(fileName);
+				});
+				/*清除论文属性值*/
+				$("#clearPaper-btn").click(function(){
+					$("#paperAttrList li input.textInput").val(null);
+					$("#userId").val(null);
+					$("#paperType1").trigger("click");
+					$("#paperUttererMyLabel").trigger("click");
+				});
+				/*添加/修改论文*/
+				$("#addPaper-btn").on("click",function(){
+					var paperName = $.trim($("#paperName").val());
+					var paperType = $("input.paperTypeSelect[name='paperType']:checked").val();
+					var paperContent = $("#textInputFileName").val();
+					var paperFile = $("#paperContent")[0].files[0];
+					var paperKeywords = $("#paperKeywords").val();
+					var paperInstructor = $("#paperInstructor").val();
+					var paperUtterer = $("input.paperUttererSelect[name='paperUtterer']:checked").val();
+					if(paperUtterer=="on"){
+						paperUtterer = $("#userId").val();
+					};
+					if(paperName != "" && paperName != null && paperType != "" && paperType != null && paperContent != "" && paperContent != null 
+						&& paperKeywords != "" && paperKeywords != null && paperInstructor != "" && paperInstructor != null && paperUtterer != "" && paperUtterer != null ){
+						var paperId = $(this).data("id");
+						var fd = new FormData();
+						if(typeof(paperId) == "undefined"){
+							var url = "paper/addPaper";
+						}else{
+							var url = "paper/updatePaper";
+							fd.append('paperId', paperId);
+						}
+						fd.append('paperName', paperName);
+						fd.append('paperType', paperType);
+						fd.append('paperContent', paperContent);
+						fd.append('paperKeywords', paperKeywords);
+						fd.append('paperInstructor', paperInstructor);
+						fd.append('paperUtterer', paperUtterer);
+						fd.append('paperFile', paperFile);
+						$.ajax({
+							type: "POST",
+							url: url,
+							data: fd,
+							cache: false, //不缓存
+							contentType: false, //jq不要设置请求头
+							processData: false, //默认jq会对data数据处理，禁止处理，fd已做
+							dataType: "JSON",
+							success: function(data){
+								switch(data.result){
+								case 1:
+									if(typeof(paperId) == "undefined"){
+										alert("添加成功");
+									}else{
+										$("#addPaper-btn").text("添加");
+										var $addPaperBoxDom = $("#addPaperBox");
+										$addPaperBoxDom.hide();
+										$addPaperBoxDom.parent().hide();
+										alert("修改成功");
+									}
+									$("#cancelAddPaper").trigger("click");
+									$("#fn-myPaper").trigger("click");break;
+								case 11:
+									alert("指导老师职工号不存在");break;
+								case 12: 
+									alert("学号不存在");break;
+								case 13:
+									alert("文件格式不对或文件过大");break;
+								case 14:
+									alert("文件读写错误");break;
+								default:
+									if(typeof(paperId) == "undefined"){
+										alert("添加失败");
+									}else{
+										alert("修改失败");
+									}
+								}
+							},
+							error: function(){
+								alert("请求操作失败");
+							}
+						});
+					}else{
+						alert("请完善论文信息再提交");
+					}
+				});
+				/*弹出删除论文框*/
+				$("#tbody").on("click",".deletePaper",function(){
+					$("#allBackground").show();
+					new Dialog({
+						id : "smgDialog",
+						width : 400,
+						height : 250,
+						title : "注意",
+						content : "确定删除吗",
+						btn1 : "确定",
+						btn2 : "取消",
+						color: "#999",
+						initColor: "#f2f2f2"
+					}).init();
+					var paperId = $(this).data("id");
+					$("#smgDialog-operate-pass").attr("data-id",paperId);
+				});
+				/*确定删除论文*/
+				$("#smgDialog").on("click","#smgDialog-operate-pass",function(){
+					var $thisDom = $(this);
+					var paperId = $thisDom.data("id");
+					$.ajax({
+						url: "paper/deletePaper",
+						method : "POST", 
+						data: {
+							_method: "DELETE",
+							paperId: paperId
+						},
+						dataType: "JSON",
+						success: function(data){
+							if(data.result == 1){
+								alert("删除成功");
+								var $trDom = $("#tbody").find("tr");
+								var length = $trDom.length;
+								for(var i=0;i<length;i++){
+									if($trDom.eq(i).find("th").eq(0).text() == paperId){
+										$trDom.eq(i).remove();break;
+									}
+								}
+								$smgDialogDom = $("#smgDialog");
+								$smgDialogDom.empty();
+								$smgDialogDom.hide();
+								$smgDialogDom.parent().hide();
+							}else{
+								alert("删除失败");
+							}
+						},
+						error:function(){
+							alert("请求操作失败");
+						}
+					});
+				});
+				/*关闭删除框*/
+				$("#smgDialog").on("click","#smgDialog-operate-no,#smgDialog-operate-cancle",function(){
+					var $thisDom = $("#smgDialog");
+					$thisDom.empty();
+					$thisDom.hide();
+					$thisDom.parent().hide();
+				});
+				/*弹出修改论文窗口*/
+				$("#tbody").on("click",".updatePaper",function(){
+					var $trDom = $(this).parents("tr");
+					var $thDom = $trDom.find("th");
+					var paperId = $thDom.eq(0).text();
+					var paperKeywords = $thDom.eq(0).data("keywords");
+					var paperName = $thDom.eq(1).text();
+					var paperType = $thDom.eq(2).data("type");
+					var paperInstructor = $thDom.eq(3).data("instructor");
+					$("#fn-addPaper").trigger("click");
+					var $paperAttrListDom = $("#paperAttrList");
+					$paperAttrListDom.find("#paperName").val(paperName);
+					$paperAttrListDom.find("#paperTypeLabel-"+paperType).trigger("click");
+					$paperAttrListDom.find("#paperKeywords").val(paperKeywords);
+					$paperAttrListDom.find("#paperInstructor").val(paperInstructor);
+					$paperAttrListDom.find("#paperUttererMyLabel").trigger("click");
+					$paperAttrListDom.find("#textInputFileName").val(null);
+					var $addPaperBtnDom = $("#addPaper-btn");
+					$addPaperBtnDom.text("修改");
+					$addPaperBtnDom.attr("data-id",paperId);
+				});
+				/*事件委托下拉列表*/
+				$("#selectList").on("click","li",function(){
+					$firstDom = $(this);
+					var tip = $firstDom.data("tip");
+					$("#selectBox-input").attr("placeholder",tip);
+					$parentDom = $firstDom.parent();
+				    $firstDom.remove();
+					$parentDom.prepend($firstDom);
+				});
+				/*键盘回车触发查询*/
+				$(document).keyup(function (e) { 
+				    if (e.keyCode == 13) {
+				    	$("#selectBox-select").trigger("click");
+				    }  
+				});
+				/*设置查询路径*/
+				$("#selectBox-select").on("click",function(){
+					var selectString = $.trim($("#selectBox-input").val());
+					if(selectString !== null && selectString !== ''){
+						var index = $("#selectList").find("li").first().data("index");
+						var format = /^(\d{4})-(\d{2})-(\d{2})$/;
+						if (index == 5 && !format.test(selectString)) { 
+							alert("日期格式不正确!");
+							return false;
+						}
+						var url = 'paper/selectPaperList/'+index+'/'+encodeURI(encodeURI(selectString));
+						getPaper(url);
+					}
+				});
+				/*查询论文*/
+				function getPaper(url){
+					$.ajax({
+						type: 'GET',
+						url: url,
+						dataType: 'JSON', 
+						success: function(data){
+							if(data.length >= 1){
+								var $tbodyDom = $("#tbody");
+								$tbodyDom.empty();
+								var $theadDom = $("#thead");
+								$theadDom.show();
+								data.forEach(function(thisData){
+									addTr(thisData,$tbodyDom,$theadDom.height());
+								})
+							}else{
+								alert("系统暂未录入该相关信息");	
+							}
+						},
+						error: function(){
+							alert("程序有bug，请尽快向管理员反馈");
+						}
+					});
+				}
+				/*添加查询单个结果*/
+				function addTr(data,$tbodyDom,trHeight){
+					var action = "", state = "";
+					switch(data.paperState){
+						case 0: action = "<a class='reviewPaper' data-content='"+data.paperContent+"'>审阅</a>"; state = "待审核"; break;
+						case 1: action = "<a class='seePaper' data-content='"+data.paperContent+"'>查看</a>"; state = "通过"; break;
+						case 2: action = "<a class='updatePaper'>修改</a><a class='deletePaper' data-id='"+data.paperId+"'>删除</a>"; state = "未通过"; break;
+						default: ;
+					}
+					var type = "";
+					switch(data.paperType){
+						case 1: type = "设计";break;
+						case 2: type = "学术";break;
+						default: ;
+					}
+					var $this = $("<tr>"+
+						"<th data-keywords='"+data.paperKeywords+"'>"+data.paperId+"</th>"+
+						"<th>"+data.paperName+"</th>"+
+						"<th data-type='"+data.paperType+"'>"+type+"</th>"+
+						"<th data-instructor='"+data.paperInstructor+"'>"+data.paperInstructorName+"</th>"+
+						"<th>"+data.paperPublishtime+"</th>"+
+						"<th>"+data.paperUttererName+"</th>"+
+						"<th>"+state+"</th>"+
+						"<th>"+action+"</th></tr>");
+					$tbodyDom.append($this);
+				}
+				/*查看审阅论文*/
+				$("#tbody").on("click",".reviewPaper, .seePaper",function(){
+					var paperContent = $(this).data("content");
+					window.open('paper/selectPaperContent/['+paperContent+']','','width='+document.body.offsetWidth,'height='+ document.body.offsetHeight);
+					$.ajax({
+						type: "GET",
+						url: "paper/selectPaperState/["+paperContent+"]",
+						dataType: "JSON",
+						success: function(data){
+							if(data.paperState == 0){
+								$("#allBackground").show();
+								new Dialog({
+									id : "commentDialog",
+									width : 400,
+									height : 250,
+									title : "评价",
+									content : "审核是否通过",
+									btn1 : "通过",
+									btn2 : "不通过",
+									color: "#999",
+									initColor: "#f2f2f2"
+								}).init();
+								$("#commentDialog-operate-pass").attr("data-content",paperContent);
+								$("#commentDialog-operate-cancle").attr("data-content",paperContent);
+							}
+						},
+						error: function(){
+							alert("审阅查看出bug了");
+						}
+					});
+				});
+				/*论文通过*/
+				$("#commentDialog").on("click","#commentDialog-operate-pass",function(){
+					var paperContent = $(this).data("content");
+					submitComment(paperContent.substring(0, paperContent.indexOf(".")), 1);
+				});
+				/*提交论文评价*/
+				function submitComment(paperId, state){
+					$.ajax({
+						type: "POST",
+						url: "paper/updatePaperState/",
+						data: { "_method": "PUT", "paperId": paperId, "state": state},
+						dataType: "TEXT",
+						success: function(data){
+							if(data){
+								$("#commentDialog-operate-no").trigger("click");
+							}else{
+								alert("参数出错");
+							}
+						},
+						error: function(){
+							alert("论文评价操作出错");
+						}
+					});
+				}
+				/*关闭论文评价框*/
+				$("#commentDialog").on("click","#commentDialog-operate-no,#commentDialog-operate-cancle",function(){
+					var $thisDom = $("#commentDialog");
+					$thisDom.empty();
+					$thisDom.hide();
+					$thisDom.parent().hide();
+				});
+				/*论文评价不通过原因*/
+				$("#commentDialog").on("click","#commentDialog-operate-cancle",function(){
+					var paperContent = $(this).data("content");
+					submitComment(paperContent.substring(0, paperContent.indexOf(".")),2);
+					$("#allBackground").show();
+					new Dialog({
+						id : "reasonDialog",
+						width : 400,
+						height : 250,
+						title : "未通过原因",
+						content : "<textarea class='reason' clos='50' rows='5' warp='virtual' style='width:285px;height:100px;border:1px solid #999;'></textarea>",
+						btn1 : "确定",
+						btn2 : "无",
+						color: "#999",
+						initColor: "#f2f2f2"
+					}).init();
+					$("#reasonDialog-operate-pass").attr("data-content",paperContent);
+				});
+				/*提交原因*/
+				 $("#reasonDialog").on("click","#reasonDialog-operate-pass",function(){
+					var paperContent = $(this).data("content"); 
+					var paperId = paperContent.substring(0, paperContent.indexOf("."));
+					var paperReason = $(".reason").val();
+					if(paperReason != "" && paperReason != null){
+						$.ajax({
+							type: "POST",
+							url: "paper/updatePaperReason",
+							data: {"_method": "PUT", "paperId": paperId, "paperReason": paperReason},
+							dataType: "TEXT",
+							success: function(data){
+								if(data){
+									alert("原因添加成功");
+									$("#reasonDialog-operate-no").trigger("click");
+									var $trDom = $("#tbody").find("tr");
+									var length = $trDom.length;
+									for(var i=0;i<length;i++){
+										if($trDom.eq(i).find("th").eq(0).text() == paperId){
+											$trDom.eq(i).remove();break;
+										}
+									}
+								}else{
+									alert("添加原因失败");
+								}
+							},
+							error: function(){
+								alert("提交原因操作失败");
+							}
+						});
+					};
+				 });
+				/*关闭原因框*/
+				$("#reasonDialog").on("click","#reasonDialog-operate-no,#reasonDialog-operate-cancle",function(){
+					var $thisDom = $("#reasonDialog");
+					$thisDom.empty();
+					$thisDom.hide();
+					$thisDom.parent().hide();
+				});
+			})();
+		</script>
+	</body>
+</html>

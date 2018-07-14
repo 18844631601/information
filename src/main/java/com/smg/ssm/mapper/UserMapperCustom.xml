@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.UserMapperCustom" >
+	<sql id="select_user_where">
+		<if test="userCustom!=null">
+			<if test="userCustom.userName!=null and userCustom.userName!=''">
+				`user`.user_type = #{userCustom.userType,jdbcType=INTEGER}
+				AND `user`.user_name 
+				LIKE CONCAT(CONCAT('%',#{userCustom.userName,jdbcType=VARCHAR},'%')) 
+			</if>
+		</if>
+	</sql>
+	<!-- 查询对应类型用户集合 -->
+	<select id="selectUserList" parameterType="com.smg.ssm.po.UserVo" resultType="com.smg.ssm.po.UserCustom">
+		SELECT `user`.* FROM `user` 
+		<where>
+			<include refid="select_user_where"></include>
+		</where>
+	</select>
+	<!-- 根据账号密码查用户 -->
+	<select id="selectUserByIdAndPw" parameterType="com.smg.ssm.po.User" resultType="com.smg.ssm.po.User">
+		SELECT `user`.user_name,`user`.user_isadmin
+		FROM `user`
+		WHERE user_id = #{userId,jdbcType=INTEGER}
+		AND user_pw = #{userPw,jdbcType=VARCHAR}
+	</select>
+</mapper>

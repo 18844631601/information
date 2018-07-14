@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/context 
+				        http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+				        http://www.springframework.org/schema/aop 
+				        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+				        http://www.springframework.org/schema/tx 
+				        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd ">
+
+    <!-- 实际开发中使用组件扫描 -->
+    <context:component-scan base-package="com.smg.ssm.controller"></context:component-scan>
+
+	<!-- 使用<mvc:annotation-driven>可以代替注解映射器和注解适配器，另外还默认加载很多参数绑定方法，比如json转换解析器，在开发中常用这配置 -->
+	<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
+	
+	<!-- 静态资源解析-->
+	<mvc:default-servlet-handler />
+	
+	<!-- 配置视图解析器  解析jsp，默认使用jstl标签，classpath下必须的有jstl的包 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/"></property>
+		<property name="suffix" value=".html"></property>
+	</bean>
+	
+	<!-- 自定义参数绑定 spring-context-3.2.0.RELEASE.jar-->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<!-- 转换器 -->
+		<property name="converters">
+			<list>
+				<bean class="com.smg.ssm.controller.converter.CustomDateConverter"></bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 多部件解析器：图片，音频，文件 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为10MB -->
+		<property name="maxUploadSize">
+			<value>5242880</value>
+		</property>
+	</bean>
+</beans>

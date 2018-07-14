@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.PatentMapperCustom" >
+  	<sql id="select_patent_where">
+  		<if test="patentCustom!=null">
+  			<if test="patentCustom.patentId!=null and patentCustom.patentId!=''">
+  				patent_id LIKE CONCAT(CONCAT('%',#{patentCustom.patentId,jdbcType=VARCHAR},'%'))
+  			</if>
+  			<if test="patentCustom.patentName!=null and patentCustom.patentName!=''">
+  				patent_name LIKE CONCAT(CONCAT('%',#{patentCustom.patentName,jdbcType=VARCHAR},'%'))
+  			</if>
+  			<if test="patentCustom.patent!=null and patentCustom.patentId!=''">
+  				patent_applytime LIKE CONCAT(CONCAT('%',#{patentCustom.patentApplytime,jdbcType=DATE},'%'))
+  			</if>
+  			<if test="patentCustom.patentId!=null and patentCustom.patentId!=''">
+  				patent_gettime LIKE CONCAT(CONCAT('%',#{patentCustom.patentGettime,jdbcType=DATE},'%'))
+  			</if>
+  			<if test="patentCustom.patentId!=null">
+  				patent_patentee LIKE CONCAT(CONCAT('%',#{patentCustom.patentPatentee,jdbcType=INTEGER},'%'))
+  			</if>
+  		</if>
+  	</sql>
+  	<!-- 查询所有专利 -->
+  	<select id="selectPatentList" parameterType="com.smg.ssm.po.PatentVo" resultType="com.smg.ssm.po.PatentCustom">
+  		SELECT patent.* FROM patent
+  		<where>
+  			<include refid="select_patent_where"></include>
+  		</where>
+  	</select>
+  	
+  	<!-- 查询自己的专利 -->
+  	<select id="selectMyPatent" parameterType="java.lang.Integer" resultType="com.smg.ssm.po.PatentCustom">
+  		SELECT patent.* FROM patent 
+		WHERE patent_patentee = #{patentPatentee,jdbcType=INTEGER} 
+		ORDER BY patent_state DESC,patent_gettime DESC 
+  	</select>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration  
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-config.dtd">  
+<configuration>  
+    <!-- 全局setting配置，根据需要添加 -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="multipleResultSetsEnabled" value="true"/>
+	</settings>
+    <!-- 配置别名 -->  
+    <typeAliases>  
+        <!-- 批量扫描别名 -->  
+        <!-- package：指定包名称来为该包下的po类声明别名，默认的别名就是类名（首字母大小写都可） -->  
+        <package name="com.smg.ssm.po" />  
+    </typeAliases> 
+</configuration>

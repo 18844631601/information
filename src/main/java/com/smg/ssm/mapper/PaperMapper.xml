@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.PaperMapper" >
+  <resultMap id="BaseResultMap" type="com.smg.ssm.po.Paper" >
+    <id column="paper_id" property="paperId" jdbcType="VARCHAR" />
+    <result column="paper_name" property="paperName" jdbcType="VARCHAR" />
+    <result column="paper_type" property="paperType" jdbcType="INTEGER" />
+    <result column="paper_content" property="paperContent" jdbcType="VARCHAR" />
+    <result column="paper_keywords" property="paperKeywords" jdbcType="VARCHAR" />
+    <result column="paper_instructor" property="paperInstructor" jdbcType="INTEGER" />
+    <result column="paper_publishtime" property="paperPublishtime" jdbcType="TIMESTAMP" />
+    <result column="paper_utterer" property="paperUtterer" jdbcType="INTEGER" />
+    <result column="paper_state" property="paperState" jdbcType="INTEGER" />
+    <result column="paper_reason" property="paperReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    paper_id, paper_name, paper_type, paper_content, paper_keywords, paper_instructor, 
+    paper_publishtime, paper_utterer, paper_state, paper_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from paper
+    where paper_id = #{paperId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from paper
+    where paper_id = #{paperId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.smg.ssm.po.Paper" >
+    insert into paper (paper_id, paper_name, paper_type, 
+      paper_content, paper_keywords, paper_instructor, 
+      paper_publishtime, paper_utterer, paper_state, 
+      paper_reason)
+    values (#{paperId,jdbcType=VARCHAR}, #{paperName,jdbcType=VARCHAR}, #{paperType,jdbcType=INTEGER}, 
+      #{paperContent,jdbcType=VARCHAR}, #{paperKeywords,jdbcType=VARCHAR}, #{paperInstructor,jdbcType=INTEGER}, 
+      #{paperPublishtime,jdbcType=TIMESTAMP}, #{paperUtterer,jdbcType=INTEGER}, #{paperState,jdbcType=INTEGER}, 
+      #{paperReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.smg.ssm.po.Paper" >
+    insert into paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paperId != null" >
+        paper_id,
+      </if>
+      <if test="paperName != null" >
+        paper_name,
+      </if>
+      <if test="paperType != null" >
+        paper_type,
+      </if>
+      <if test="paperContent != null" >
+        paper_content,
+      </if>
+      <if test="paperKeywords != null" >
+        paper_keywords,
+      </if>
+      <if test="paperInstructor != null" >
+        paper_instructor,
+      </if>
+      <if test="paperPublishtime != null" >
+        paper_publishtime,
+      </if>
+      <if test="paperUtterer != null" >
+        paper_utterer,
+      </if>
+      <if test="paperState != null" >
+        paper_state,
+      </if>
+      <if test="paperReason != null" >
+        paper_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paperId != null" >
+        #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="paperName != null" >
+        #{paperName,jdbcType=VARCHAR},
+      </if>
+      <if test="paperType != null" >
+        #{paperType,jdbcType=INTEGER},
+      </if>
+      <if test="paperContent != null" >
+        #{paperContent,jdbcType=VARCHAR},
+      </if>
+      <if test="paperKeywords != null" >
+        #{paperKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="paperInstructor != null" >
+        #{paperInstructor,jdbcType=INTEGER},
+      </if>
+      <if test="paperPublishtime != null" >
+        #{paperPublishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paperUtterer != null" >
+        #{paperUtterer,jdbcType=INTEGER},
+      </if>
+      <if test="paperState != null" >
+        #{paperState,jdbcType=INTEGER},
+      </if>
+      <if test="paperReason != null" >
+        #{paperReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.smg.ssm.po.Paper" >
+    update paper
+    <set >
+      <if test="paperName != null" >
+        paper_name = #{paperName,jdbcType=VARCHAR},
+      </if>
+      <if test="paperType != null" >
+        paper_type = #{paperType,jdbcType=INTEGER},
+      </if>
+      <if test="paperContent != null" >
+        paper_content = #{paperContent,jdbcType=VARCHAR},
+      </if>
+      <if test="paperKeywords != null" >
+        paper_keywords = #{paperKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="paperInstructor != null" >
+        paper_instructor = #{paperInstructor,jdbcType=INTEGER},
+      </if>
+      <if test="paperPublishtime != null" >
+        paper_publishtime = #{paperPublishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paperUtterer != null" >
+        paper_utterer = #{paperUtterer,jdbcType=INTEGER},
+      </if>
+      <if test="paperState != null" >
+        paper_state = #{paperState,jdbcType=INTEGER},
+      </if>
+      <if test="paperReason != null" >
+        paper_reason = #{paperReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where paper_id = #{paperId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.smg.ssm.po.Paper" >
+    update paper
+    set paper_name = #{paperName,jdbcType=VARCHAR},
+      paper_type = #{paperType,jdbcType=INTEGER},
+      paper_content = #{paperContent,jdbcType=VARCHAR},
+      paper_keywords = #{paperKeywords,jdbcType=VARCHAR},
+      paper_instructor = #{paperInstructor,jdbcType=INTEGER},
+      paper_publishtime = #{paperPublishtime,jdbcType=TIMESTAMP},
+      paper_utterer = #{paperUtterer,jdbcType=INTEGER},
+      paper_state = #{paperState,jdbcType=INTEGER},
+      paper_reason = #{paperReason,jdbcType=VARCHAR}
+    where paper_id = #{paperId,jdbcType=VARCHAR}
+  </update>
+</mapper>

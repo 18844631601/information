@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.smg.ssm.po.Project" >
+    <id column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="project_starttime" property="projectStarttime" jdbcType="DATE" />
+    <result column="project_endtime" property="projectEndtime" jdbcType="DATE" />
+    <result column="project_leader" property="projectLeader" jdbcType="INTEGER" />
+    <result column="project_state" property="projectState" jdbcType="INTEGER" />
+    <result column="project_reason" property="projectReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    project_id, project_name, project_starttime, project_endtime, project_leader, project_state, 
+    project_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from project
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from project
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.smg.ssm.po.Project" >
+    insert into project (project_id, project_name, project_starttime, 
+      project_endtime, project_leader, project_state, 
+      project_reason)
+    values (#{projectId,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{projectStarttime,jdbcType=DATE}, 
+      #{projectEndtime,jdbcType=DATE}, #{projectLeader,jdbcType=INTEGER}, #{projectState,jdbcType=INTEGER}, 
+      #{projectReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.smg.ssm.po.Project" >
+    insert into project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="projectStarttime != null" >
+        project_starttime,
+      </if>
+      <if test="projectEndtime != null" >
+        project_endtime,
+      </if>
+      <if test="projectLeader != null" >
+        project_leader,
+      </if>
+      <if test="projectState != null" >
+        project_state,
+      </if>
+      <if test="projectReason != null" >
+        project_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStarttime != null" >
+        #{projectStarttime,jdbcType=DATE},
+      </if>
+      <if test="projectEndtime != null" >
+        #{projectEndtime,jdbcType=DATE},
+      </if>
+      <if test="projectLeader != null" >
+        #{projectLeader,jdbcType=INTEGER},
+      </if>
+      <if test="projectState != null" >
+        #{projectState,jdbcType=INTEGER},
+      </if>
+      <if test="projectReason != null" >
+        #{projectReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.smg.ssm.po.Project" >
+    update project
+    <set >
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStarttime != null" >
+        project_starttime = #{projectStarttime,jdbcType=DATE},
+      </if>
+      <if test="projectEndtime != null" >
+        project_endtime = #{projectEndtime,jdbcType=DATE},
+      </if>
+      <if test="projectLeader != null" >
+        project_leader = #{projectLeader,jdbcType=INTEGER},
+      </if>
+      <if test="projectState != null" >
+        project_state = #{projectState,jdbcType=INTEGER},
+      </if>
+      <if test="projectReason != null" >
+        project_reason = #{projectReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.smg.ssm.po.Project" >
+    update project
+    set project_name = #{projectName,jdbcType=VARCHAR},
+      project_starttime = #{projectStarttime,jdbcType=DATE},
+      project_endtime = #{projectEndtime,jdbcType=DATE},
+      project_leader = #{projectLeader,jdbcType=INTEGER},
+      project_state = #{projectState,jdbcType=INTEGER},
+      project_reason = #{projectReason,jdbcType=VARCHAR}
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </update>
+</mapper>

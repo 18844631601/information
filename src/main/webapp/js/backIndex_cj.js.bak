@@ -1,0 +1,12 @@
+(function(){
+	$(window).on("resize",init);
+	function init(){
+		var windowHeight = $(this).height();
+		$("#controllers").height(windowHeight);
+	}
+	init();
+	$(".controller").bind("click",function(){
+		var index = $this.data("index");
+		$(".iframe_"+index).show().siblings("iframe").hide();
+	});
+})();

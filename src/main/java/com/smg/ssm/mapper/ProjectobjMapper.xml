@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smg.ssm.mapper.ProjectobjMapper" >
+  <resultMap id="BaseResultMap" type="com.smg.ssm.po.Projectobj" >
+    <id column="projectobj_id" property="projectobjId" jdbcType="INTEGER" />
+    <result column="projectobj_menber" property="projectobjMenber" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    projectobj_id, projectobj_menber
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from projectobj
+    where projectobj_id = #{projectobjId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from projectobj
+    where projectobj_id = #{projectobjId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.smg.ssm.po.Projectobj" >
+    insert into projectobj (projectobj_id, projectobj_menber)
+    values (#{projectobjId,jdbcType=INTEGER}, #{projectobjMenber,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.smg.ssm.po.Projectobj" >
+    insert into projectobj
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectobjId != null" >
+        projectobj_id,
+      </if>
+      <if test="projectobjMenber != null" >
+        projectobj_menber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectobjId != null" >
+        #{projectobjId,jdbcType=INTEGER},
+      </if>
+      <if test="projectobjMenber != null" >
+        #{projectobjMenber,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.smg.ssm.po.Projectobj" >
+    update projectobj
+    <set >
+      <if test="projectobjMenber != null" >
+        projectobj_menber = #{projectobjMenber,jdbcType=INTEGER},
+      </if>
+    </set>
+    where projectobj_id = #{projectobjId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.smg.ssm.po.Projectobj" >
+    update projectobj
+    set projectobj_menber = #{projectobjMenber,jdbcType=INTEGER}
+    where projectobj_id = #{projectobjId,jdbcType=INTEGER}
+  </update>
+</mapper>

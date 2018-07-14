@@ -1,0 +1,22 @@
+@charset "UTF-8";
+.allBackground{position:absolute;z-index:10;width:100%;height:100%;top:0;display:none;}
+.allBackground .addPaperBox{position:relative;top:160px;width:320px;height:auto;margin:auto;border-radius:5px;overflow:hidden;background:#888;color:#fff;display:none;box-shadow:#888 0 0 6px;}
+.allBackground .addPaperBox span.cancelAddPaper{display:inline-block;position:absolute;left:-41px;top:-3px;width:100px;height:30px;background:#666;font-size:26px;text-align:center;transform:rotate(-45deg);cursor:pointer;}
+.allBackground .addPaperBox span.cancelAddPaper:hover{background:#999;}
+.allBackground .addPaperBox ul.paperAttrList{width:320px;height:auto;list-style:none;margin-top:15px;}
+.allBackground .addPaperBox ul.paperAttrList li{width:310px;height:30px;padding:5px 5px;display:flex;}
+.allBackground .addPaperBox ul.paperAttrList li span{display:inline-block;width:80px;height:30px;line-height:30px;text-align:center;}
+.allBackground .addPaperBox ul.paperAttrList li input.textInput{width:215px;height:30px;border:0.1px solid #CDCDCD;text-indent:.5em;}
+.allBackground .addPaperBox ul.paperAttrList li input.textInput.textInputFileName{width:165px;height:30px;border:1px solid #CDCDCD;text-indent:.5em;}
+.allBackground .addPaperBox ul.paperAttrList li span.paperContentTrigger{display:inline-block;width:50px;height:30px;background:#666;cursor:pointer;}
+.allBackground .addPaperBox ul.paperAttrList li span.paperContentTrigger:hover{background:#999;}
+.allBackground .addPaperBox ul.paperAttrList li input.textInputFile{display:none;}
+.allBackground .addPaperBox ul.paperAttrList li label{margin-right:10px;line-height:30px;padding:0;}
+.allBackground .addPaperBox ul.paperAttrList li label:hover{cursor:pointer;}
+.allBackground .addPaperBox ul.paperAttrList li label input.userId{width:123.5px;height:27px;border:0.1px solid #CDCDCD;display:none;text-indent:.5em;}
+.allBackground .addPaperBox .addPaper-btnBox{width:320px;height:60px;text-align: center;margin-bottom:10px;}
+.allBackground .addPaperBox .addPaper-btnBox span{display:inline-block;width:90px;height:40px;margin-top:10px;border-radius:.3em;background:#666;line-height:40px;cursor:pointer;}
+.allBackground .addPaperBox .addPaper-btnBox span:hover{background:#999;}
+.allBackground .addPaperBox .addPaper-btnBox span:first-child{margin-right:50px;}
+.allBackground .smgDialog{margin:auto;position:relative;z-index:11;top:200px;}
+.allBackground .smgDialog .operate-no:hover{background:#666;}
